@@ -8,11 +8,16 @@
   </head>
   <body>
     <div class="login-container">
-      <h1>Prijavi se</h1>
-      <form action="./index.html">
+      <h1>Registrirajte se</h1>
+      <form action="./login.html">
         <div class="form-control">
           <input type="text" required />
           <label>Korisničko ime</label>
+        </div>
+
+        <div class="form-control">
+          <input type="text" required />
+          <label>Email</label>
         </div>
 
         <div class="form-control">
@@ -20,10 +25,15 @@
           <label>Lozinka</label>
         </div>
 
-        <button class="btn">Prijava</button>
+        <div class="form-control">
+          <input type="password" required />
+          <label>Ponovljena lozinka</label>
+        </div>
+
+        <button class="btn">Registracija</button>
 
         <p class="text">
-          Nemate račun? <a href="./register.html">Registracija</a>
+          Natrag na prijavu?<a href="./login.html"> Prijava</a>
         </p>
       </form>
     </div>
