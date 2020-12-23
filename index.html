@@ -14,6 +14,40 @@
       <li><a href="#">Dvorane</a></li>
       <li><a href="#">Zgrade</a></li>
     </ul>
+
+    <div class="main-container">
+      <form action="#">
+        <div class="filter-raspored">
+          <h2>Pretraži raspored</h2>
+          <label for="">Vrijeme</label>
+          <select id="vrijeme" name="vrijeme">
+            <option value="Ponedjeljak">Ponedjeljak</option>
+            <option value="Utorak">Utorak</option>
+            <option value="Srijeda">Srijeda</option>
+            <option value="Četvrtak">Četvrtak</option>
+            <option value="Petak">Petak</option>
+            <option value="Subota">Subota</option>
+            <option value="Nedjelja">Nedjelja</option>
+          </select>
+
+          <label for="">Nastavnik</label>
+          <select id="nastavnik" name="nastavnik">
+            <option value="Schatten">Schatten</option>
+            <option value="ca">Okreša Đurić</option>
+            <option value="Stapić">Stapić</option>
+          </select>
+
+          <label for="">Dvorana</label>
+          <select id="dvorana" name="dvorana">
+            <option value="10">10</option>
+            <option value="9">9</option>
+            <option value="1">1</option>
+          </select>
+
+          <button class="main-btn">Pretraži</button>
+        </div>
+      </form>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
