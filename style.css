@@ -7,7 +7,7 @@
 body {
   font-family: "Muli", sans-serif;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   margin: 0;
 }
 
@@ -141,6 +141,8 @@ li a:hover:not(.active) {
   transform: translateY(-30px);
 }
 
+/* Filter schedule */
+
 select {
   width: 200px;
   padding: 20px;
@@ -159,13 +161,17 @@ select {
   align-items: center;
   justify-content: space-evenly;
   align-content: center;
-  background-color: gray;
+  background-color: rgba(204, 84, 48, 0.918);
   flex-wrap: wrap;
   padding: 60px;
 }
 
+.filter-raspored h2 {
+  font-size: 25px;
+}
+
 .filter-raspored label {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -180,4 +186,96 @@ select {
   font-size: 16px;
   border: 0;
   border-radius: 5px;
+}
+
+/* Schedule cards */
+
+.shedule-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 60px;
+  gap: 30px;
+}
+
+.info-box {
+  background: #efefef;
+  padding: 15px;
+  border-radius: 25px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.info-box__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+}
+
+.info-box__header h2 {
+  color: darkblue;
+}
+
+.info-box__icon {
+  flex: 1 0 25px;
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+}
+
+.info-box__title {
+  font-size: 21px;
+}
+
+.info-box__subheader {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.info-box__subheader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-box__subheader-figure {
+  width: 45px;
+  height: 45px;
+  margin-bottom: 10px;
+}
+
+.info-box__subheader-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.info-box__about {
+  padding: 30px 0;
+  font-size: 17px;
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid #fff;
+  text-align: justify;
+}
+
+.info-box__footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+.info-box__footer a {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.info-box__btn-join {
+  color: black;
+  font-weight: bold;
+  transition: color 0.3s ease-out;
+}
+
+.info-box__btn-join:hover {
+  color: darkblue;
 }
