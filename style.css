@@ -229,7 +229,7 @@ select {
 
 .info-box__subheader {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 15px 0;
 }
 
@@ -278,4 +278,13 @@ select {
 
 .info-box__btn-join:hover {
   color: darkblue;
+}
+
+/* Subject cards */
+
+.subject-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 60px;
+  gap: 30px;
 }
