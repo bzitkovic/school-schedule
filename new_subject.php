@@ -9,7 +9,7 @@
   <body>
     <div class="login-container-subject">
       <h1>Stvori novi predmet</h1>
-      <form action="./subject.html">
+      <form action="./subject.php">
         <div class="form-control">
           <input name="naziv_predmeta" type="text" required />
           <label>Naziv predmeta</label>
@@ -74,7 +74,7 @@
         <button class="btn">Stvori predmet</button>
 
         <p class="text">
-          Povratak na popis predmeta? <a href="./subject.html">Vrati se</a>
+          Povratak na popis predmeta? <a href="./subject.php">Vrati se</a>
         </p>
       </form>
     </div>

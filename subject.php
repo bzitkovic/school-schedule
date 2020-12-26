@@ -8,16 +8,16 @@
   </head>
   <body>
     <ul>
-      <li><a href="./index.html">Raspored</a></li>
-      <li><a class="active" href="./subject.html">Predmeti</a></li>
-      <li><a href="./professor.html">Profesori</a></li>
-      <li><a href="./room.html">Dvorane</a></li>
-      <li><a href="./building.html">Zgrade</a></li>
+      <li><a href="./index.php">Raspored</a></li>
+      <li><a class="active" href="./subject.php">Predmeti</a></li>
+      <li><a href="./professor.php">Profesori</a></li>
+      <li><a href="./room.php">Dvorane</a></li>
+      <li><a href="./building.php">Zgrade</a></li>
     </ul>
 
     <div class="main-container">
       <div class="filter-raspored">
-        <form action="./new_subject.html">
+        <form action="./new_subject.php">
           <button class="main-btn">Novi predmet</button>
         </form>
       </div>

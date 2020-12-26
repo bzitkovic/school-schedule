@@ -8,17 +8,17 @@
   </head>
   <body>
     <ul>
-      <li><a href="./index.html">Raspored</a></li>
-      <li><a class="active" href="./subject.html">Predmeti</a></li>
-      <li><a href="./professor.html">Profesori</a></li>
-      <li><a href="./room.html">Dvorane</a></li>
-      <li><a href="./building.html">Zgrade</a></li>
+      <li><a href="./index.php">Raspored</a></li>
+      <li><a href="./subject.php">Predmeti</a></li>
+      <li><a href="./professor.php">Profesori</a></li>
+      <li><a href="./room.php">Dvorane</a></li>
+      <li><a class="active" href="./building.php">Zgrade</a></li>
     </ul>
 
     <div class="main-container">
       <div class="filter-raspored">
-        <form action="./new_room.html">
-          <button class="main-btn">Nova dvorana</button>
+        <form action="./new_building.html">
+          <button class="main-btn">Nova zgrada</button>
         </form>
       </div>
     </div>
@@ -28,11 +28,11 @@
           <figure class="info-box__subheader-figure">
             <img
               class="info-box__subheader-img"
-              src="https://images.vexels.com/media/users/3/157343/isolated/preview/fa058a304813b6d204d29253f5cb90d4-flat-home-house-icon-by-vexels.png"
+              src="https://cdn.iconscout.com/icon/free/png-256/building-1741335-1484597.png"
               alt="club-image"
             />
           </figure>
-          <h2 class="info-box__title">Dvorana 1</h2>
+          <h2 class="info-box__title">FOI 1</h2>
         </div>
 
         <div class="info-box__subheader">
@@ -40,14 +40,26 @@
             <figure class="info-box__subheader-figure">
               <img
                 class="info-box__subheader-img"
-                src="https://image.flaticon.com/icons/png/512/83/83510.png"
+                src="https://cdn.onlinewebfonts.com/svg/img_372594.png"
                 alt="country-image"
               />
             </figure>
-            <b><span class="info-box__subheader-box-text">Broj mjesta</span></b>
-            <span class="info-box__subheader-box-text"> 186 </span>
+            <b><span class="info-box__subheader-box-text">Adresa</span></b>
+            <span class="info-box__subheader-box-text">
+              Pavlinska ul. 2, 42000, Varaždin
+            </span>
           </div>
         </div>
+        <b>
+          <div class="info-box__footer">
+            <a
+              href="https://www.juventus.com/en/"
+              target="_blank"
+              class="info-box__btn-join"
+              >Službena stranica</a
+            >
+          </div>
+        </b>
       </div>
     </div>
     <script src="script.js"></script>
