@@ -9,7 +9,7 @@
   <body>
     <div class="login-container">
       <h1>Stvori novi dvoranu</h1>
-      <form action="./room.html">
+      <form action="./room.php">
         <div class="form-control">
           <input name="naziv_dvorane" type="text" required />
           <label>Naziv dvorane</label>
@@ -23,7 +23,7 @@
         <button class="btn">Stvori dvoranu</button>
 
         <p class="text">
-          Povratak na popis dvorana? <a href="./room.html">Vrati se</a>
+          Povratak na popis dvorana? <a href="./room.php">Vrati se</a>
         </p>
       </form>
     </div>

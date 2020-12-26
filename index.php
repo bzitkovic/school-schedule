@@ -1,3 +1,15 @@
+<?php
+  include_once './conn.php';
+
+  $rezultatNastavnika = pg_query($dbconn, 'SELECT * FROM "Nastavnik"');
+  $rezultatDvorana = pg_query($dbconn, 'SELECT * FROM "Dvorana"');
+
+  $nastavnici =  pg_fetch_all($rezultatNastavnika);
+  $dvorane =  pg_fetch_all($rezultatDvorana);
+  //print_r($nastavniciArray);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,11 +20,11 @@
   </head>
   <body>
     <ul>
-      <li><a href="./index.html">Raspored</a></li>
-      <li><a class="active" href="./subject.html">Predmeti</a></li>
-      <li><a href="./professor.html">Profesori</a></li>
-      <li><a href="./room.html">Dvorane</a></li>
-      <li><a href="./building.html">Zgrade</a></li>
+      <li><a class="active" href="./index.php">Raspored</a></li>
+      <li><a href="./subject.php">Predmeti</a></li>
+      <li><a href="./professor.php">Profesori</a></li>
+      <li><a href="./room.php">Dvorane</a></li>
+      <li><a href="./building.php">Zgrade</a></li>
     </ul>
 
     <div class="main-container">
@@ -32,16 +44,18 @@
 
           <label for="nastavnik">Nastavnik</label>
           <select id="nastavnik" name="nastavnik">
-            <option value="Schatten">Schatten</option>
-            <option value="ca">Okreša Đurić</option>
-            <option value="Stapić">Stapić</option>
+          <?php
+              foreach( $nastavnici as $nastavnik) 
+                echo "<option value=\"{$nastavnik['prezime']}\">{$nastavnik['prezime']}</option>";
+          ?>
           </select>
 
           <label for="dvorana">Dvorana</label>
           <select id="dvorana" name="dvorana">
-            <option value="10">10</option>
-            <option value="9">9</option>
-            <option value="1">1</option>
+          <?php
+              foreach( $dvorane as $dvorana) 
+                echo "<option value=\"{$dvorana['naziv']}\">{$dvorana['naziv']}</option>";
+          ?>
           </select>
 
           <button class="main-btn">Pretraži</button>
@@ -49,7 +63,7 @@
         </div>
       </form>
       <div class="filter-raspored">
-        <form action="./new_schedule.html">
+        <form action="./new_schedule.php">
           <button class="main-btn">Dodaj predmet</button>
         </form>
       </div>

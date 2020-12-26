@@ -8,27 +8,22 @@
   </head>
   <body>
     <div class="login-container">
-      <h1>Stvori novi predmet</h1>
-      <form action="./professor.html">
+      <h1>Stvori novu zgradu</h1>
+      <form action="./building.php">
         <div class="form-control">
           <input name="ime_profesora" type="text" required />
-          <label>Ime profesora</label>
+          <label>Naziv zgrade</label>
         </div>
 
         <div class="form-control">
           <input name="prezime_profesora" type="text" required />
-          <label>Prezime profesora</label>
+          <label>Adresa zgrade</label>
         </div>
 
-        <div class="form-control">
-          <input name="email_profesora" type="text" required />
-          <label>Email profesora</label>
-        </div>
-
-        <button class="btn">Stvori profesora</button>
+        <button class="btn">Stvori zgradu</button>
 
         <p class="text">
-          Povratak na popis profesora? <a href="./professor.html">Vrati se</a>
+          Povratak na popis zgrada? <a href="./building.php">Vrati se</a>
         </p>
       </form>
     </div>

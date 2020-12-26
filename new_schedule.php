@@ -9,7 +9,7 @@
   <body>
     <div class="login-container">
       <h1>Dodaj novi predmet</h1>
-      <form action="./room.html">
+      <form action="./room.php">
         <div class="form-control">
           <select id="predmet" name="predmet">
             <option value="Schatten">Teorija baza podataka</option>
@@ -20,7 +20,7 @@
         <button class="btn">Dodaj predmet</button>
 
         <p class="text">
-          Povratak na raspored? <a href="./index.html">Vrati se</a>
+          Povratak na raspored? <a href="./index.php">Vrati se</a>
         </p>
       </form>
     </div>
