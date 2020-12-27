@@ -1,3 +1,13 @@
+<?php
+  include_once './conn.php';
+
+  $rezultatZgrada = pg_query('SELECT * FROM zgrada');
+
+  $zgrade =  pg_fetch_all($rezultatZgrada);
+  
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +19,7 @@
   <body>
     <div class="login-container">
       <h1>Stvori novi dvoranu</h1>
-      <form action="./room.php">
+      <form  method="POST" action="./room.php">
         <div class="form-control">
           <input name="naziv_dvorane" type="text" required />
           <label>Naziv dvorane</label>
@@ -20,7 +30,17 @@
           <label>Broj mjesta</label>
         </div>
 
-        <button class="btn">Stvori dvoranu</button>
+        <label for="dvorana">Zgrada</label>
+        <div class="form-control">
+          <select id="zgrada" name="zgrada">
+              <?php
+                  foreach( $zgrade as $zgrada) 
+                    echo "<option value=\"{$zgrada['ID_zgrade']}\">{$zgrada['naziv']}</option>";
+              ?>
+            </select>
+          </div>
+
+        <button name="submit" type="submit" class="btn">Stvori dvoranu</button>
 
         <p class="text">
           Povratak na popis dvorana? <a href="./room.php">Vrati se</a>
