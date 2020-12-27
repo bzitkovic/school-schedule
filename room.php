@@ -1,3 +1,22 @@
+<?php
+  include_once './conn.php';
+
+  if(isset($_POST["submit"])){
+    
+    $nazivDvorane = pg_escape_string( $_POST['naziv_dvorane']);
+    $brojMjesta = pg_escape_string( $_POST['broj_mjesta']);
+    $idZgrade = pg_escape_string( $_POST['zgrada']);
+    
+    $query = "INSERT INTO dvorana (naziv, broj_mjesta, id_zgrade) VALUES ('$nazivDvorane', '$brojMjesta', '$idZgrade')";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  $rezultatDvorana = pg_query('SELECT * FROM dvorana');
+
+  $dvorane =  pg_fetch_all($rezultatDvorana);
+ 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,6 +42,9 @@
       </div>
     </div>
     <div class="subject-cards">
+      <?php
+          foreach( $dvorane as $dvorana) {                     
+      ?>
       <div class="info-box">
         <div class="info-box__header">
           <figure class="info-box__subheader-figure">
@@ -32,7 +54,7 @@
               alt="club-image"
             />
           </figure>
-          <h2 class="info-box__title">Dvorana 1</h2>
+          <h2 class="info-box__title"><?php {echo $dvorana['naziv'];} ?></h2>
         </div>
 
         <div class="info-box__subheader">
@@ -45,10 +67,13 @@
               />
             </figure>
             <b><span class="info-box__subheader-box-text">Broj mjesta</span></b>
-            <span class="info-box__subheader-box-text"> 186 </span>
+            <span class="info-box__subheader-box-text"> <?php {echo $dvorana['broj_mjesta'];} ?> </span>
           </div>
         </div>
       </div>
+      <?php 
+        }; 
+      ?>
     </div>
     <script src="script.js"></script>
   </body>
