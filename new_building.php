@@ -1,3 +1,9 @@
+<?php
+
+  include_once './conn.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,18 +15,18 @@
   <body>
     <div class="login-container">
       <h1>Stvori novu zgradu</h1>
-      <form action="./building.php">
+      <form  method="POST" action="./building.php">
         <div class="form-control">
-          <input name="ime_profesora" type="text" required />
+          <input name="naziv_zgrade" type="text" required />
           <label>Naziv zgrade</label>
         </div>
 
         <div class="form-control">
-          <input name="prezime_profesora" type="text" required />
+          <input name="adresa_zgrade" type="text" required />
           <label>Adresa zgrade</label>
         </div>
 
-        <button class="btn">Stvori zgradu</button>
+        <button name="submit" type="submit" class="btn">Stvori zgradu</button>
 
         <p class="text">
           Povratak na popis zgrada? <a href="./building.php">Vrati se</a>

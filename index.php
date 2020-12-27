@@ -1,8 +1,8 @@
 <?php
   include_once './conn.php';
 
-  $rezultatNastavnika = pg_query($dbconn, 'SELECT * FROM "Nastavnik"');
-  $rezultatDvorana = pg_query($dbconn, 'SELECT * FROM "Dvorana"');
+  $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
+  $rezultatDvorana = pg_query('SELECT * FROM dvorana');
 
   $nastavnici =  pg_fetch_all($rezultatNastavnika);
   $dvorane =  pg_fetch_all($rezultatDvorana);
