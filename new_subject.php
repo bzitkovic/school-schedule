@@ -1,3 +1,16 @@
+<?php
+  include_once './conn.php';
+
+  $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
+  $rezultatDvorana = pg_query('SELECT * FROM dvorana');
+  
+
+  $nastavnici = pg_fetch_all($rezultatNastavnika);
+  $dvorane = pg_fetch_all($rezultatDvorana);
+  
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +22,7 @@
   <body>
     <div class="login-container-subject">
       <h1>Stvori novi predmet</h1>
-      <form action="./subject.php">
+      <form method="POST" action="./subject.php">
         <div class="form-control">
           <input name="naziv_predmeta" type="text" required />
           <label>Naziv predmeta</label>
@@ -23,17 +36,20 @@
         <label>Nastavnik</label>
         <div class="form-control">
           <select id="nastavnik" name="nastavnik">
-            <option value="Schatten">Schatten</option>
-            <option value="ca">Okreša Đurić</option>
+          <?php
+            foreach( $nastavnici as $nastavnik) 
+              echo "<option value=\"{$nastavnik['id_nastavnika']}\">{$nastavnik['prezime']}</option>";
+          ?>
           </select>
         </div>
 
         <label>Dvorana</label>
         <div class="form-control">
           <select id="dvorana" name="dvorana">
-            <option value="10">10</option>
-            <option value="9">9</option>
-            <option value="1">1</option>
+          <?php
+            foreach( $dvorane as $dvorana) 
+              echo "<option value=\"{$dvorana['id_dvorane']}\">{$dvorana['naziv']}</option>";
+          ?>
           </select>
         </div>
 
@@ -71,7 +87,7 @@
           ></textarea>
         </div>
 
-        <button class="btn">Stvori predmet</button>
+        <button name="submit" class="btn">Stvori predmet</button>
 
         <p class="text">
           Povratak na popis predmeta? <a href="./subject.php">Vrati se</a>
