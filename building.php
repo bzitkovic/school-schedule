@@ -1,3 +1,21 @@
+<?php
+  include_once './conn.php';
+
+  if(isset($_POST["submit"])){
+    
+    $nazivZgrade = pg_escape_string( $_POST['naziv_zgrade']);
+    $adresaZgrade = pg_escape_string( $_POST['adresa_zgrade']);
+    
+    $query = "INSERT INTO zgrada (naziv, adresa) VALUES ('$nazivZgrade', '$adresaZgrade')";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  $rezultatZgrada = pg_query('SELECT * FROM zgrada');
+
+  $zgrade =  pg_fetch_all($rezultatZgrada);
+ 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,12 +35,15 @@
 
     <div class="main-container">
       <div class="filter-raspored">
-        <form action="./new_building.html">
+        <form action="./new_building.php">
           <button class="main-btn">Nova zgrada</button>
         </form>
       </div>
     </div>
     <div class="subject-cards">
+      <?php
+          foreach( $zgrade as $zgrada) {                     
+      ?>
       <div class="info-box">
         <div class="info-box__header">
           <figure class="info-box__subheader-figure">
@@ -32,7 +53,7 @@
               alt="club-image"
             />
           </figure>
-          <h2 class="info-box__title">FOI 1</h2>
+          <h2 class="info-box__title"><?php {echo $zgrada['naziv'];} ?></h2>
         </div>
 
         <div class="info-box__subheader">
@@ -46,21 +67,14 @@
             </figure>
             <b><span class="info-box__subheader-box-text">Adresa</span></b>
             <span class="info-box__subheader-box-text">
-              Pavlinska ul. 2, 42000, Varaždin
+            <?php {echo $zgrada['adresa'];} ?>
             </span>
           </div>
         </div>
-        <b>
-          <div class="info-box__footer">
-            <a
-              href="https://www.juventus.com/en/"
-              target="_blank"
-              class="info-box__btn-join"
-              >Službena stranica</a
-            >
-          </div>
-        </b>
       </div>
+      <?php 
+        }; 
+      ?>
     </div>
     <script src="script.js"></script>
   </body>
