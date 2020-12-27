@@ -7,8 +7,9 @@
     $brojMjesta = pg_escape_string( $_POST['broj_mjesta']);
     $idZgrade = pg_escape_string( $_POST['zgrada']);
     
-    $query = "INSERT INTO dvorana (naziv, broj_mjesta, id_zgrade) VALUES ('$nazivDvorane', '$brojMjesta', '$idZgrade')";
+    $query = "INSERT INTO dvorana (naziv, broj_mjesta, id_zgrade) VALUES ('$nazivDvorane', '$brojMjesta', '$idZgrade') RETURNING id_dvorane AS id";
     $rezultat = pg_query($dbconn, $query);
+    //print_r(pg_fetch_row($rezultat));
   }
 
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');
