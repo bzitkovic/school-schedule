@@ -1,3 +1,14 @@
+<?php
+  include_once './conn.php';
+
+  $rezultatPredmeta = pg_query('SELECT * FROM predmet');
+  $rezultatRasporeda = pg_query('SELECT * FROM raspored');
+
+  $predmeti =  pg_fetch_all($rezultatPredmeta);
+  $rasporedi =  pg_fetch_all($rezultatRasporeda);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,15 +20,26 @@
   <body>
     <div class="login-container">
       <h1>Dodaj novi predmet</h1>
-      <form action="./room.php">
+      <form method="POST" action="./index.php">
         <div class="form-control">
           <select id="predmet" name="predmet">
-            <option value="Schatten">Teorija baza podataka</option>
-            <option value="ca">Deklarativno programiranje</option>
+          <?php
+              foreach( $predmeti as $predmet) 
+                echo "<option value=\"{$predmet['id_predmeta']}\">{$predmet['naziv']}</option>";
+          ?>
           </select>
         </div>
 
-        <button class="btn">Dodaj predmet</button>
+        <div class="form-control">
+          <select id="raspored" name="raspored">
+          <?php
+              foreach( $rasporedi as $raspored) 
+                echo "<option value=\"{$raspored['id_rasporeda']}\">{$raspored['naziv']}</option>";
+          ?>
+          </select>
+        </div>
+
+        <button name="submit" class="btn">Dodaj predmet</button>
 
         <p class="text">
           Povratak na raspored? <a href="./index.php">Vrati se</a>
