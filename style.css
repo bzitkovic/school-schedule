@@ -17,7 +17,7 @@ ul {
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   align-content: center;
   overflow: hidden;
   background-color: #333;
@@ -38,6 +38,11 @@ li a {
 
 li a:hover:not(.active) {
   background-color: #111;
+}
+
+.active-user {
+  padding-left: 800px;
+  color: #fff;
 }
 
 .active {
@@ -151,6 +156,18 @@ li a:hover:not(.active) {
 .form-control input:valid + label span {
   color: darkblue;
   transform: translateY(-30px);
+}
+
+.error {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: rgb(141, 7, 7);
+}
+
+.error-text {
+  font-weight: 600;
+  color: rgb(141, 7, 7);
 }
 
 /* Filter schedule */

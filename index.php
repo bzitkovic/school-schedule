@@ -1,6 +1,8 @@
 <?php
   include_once './conn.php';
-
+  $korisnik = $_SESSION['kor_ime'];
+  $pogreska = "";
+  error_reporting(E_ERROR | E_PARSE);
 
   if(isset($_POST["submit"])){
     
@@ -9,9 +11,22 @@
     
     $query = "INSERT INTO se_nalazi (id_predmeta, id_rasporeda) VALUES ('$idPredmeta', '$idRasporeda')";
     $rezultat = pg_query($dbconn, $query);
-    //print_r(pg_fetch_row($rezultat));
+    
+    if(!$rezultat){
+     
+      $pogreska = "Predmet već postoji na rasporedu!";
+    }
+
   }
 
+  $rezultatKorisnikovihrasporeda = pg_query(
+    "SELECT
+      *
+    FROM
+      korisnik k
+    JOIN raspored r ON r.id_korisnika = k.id_korisnika
+    WHERE k.korisnicko_ime = '$korisnik';
+  ");
 
   $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');
@@ -40,6 +55,7 @@
       JOIN dvorana d ON d.id_dvorane = si.id_dvorane
   ');
 
+  $korisnikoviRasporedi = pg_fetch_all($rezultatKorisnikovihrasporeda);
   $nastavnici =  pg_fetch_all($rezultatNastavnika);
   $dvorane =  pg_fetch_all($rezultatDvorana);
   $rasporedi = pg_fetch_all($rezultatRasporeda);
@@ -63,8 +79,11 @@
       <li><a href="./professor.php">Profesori</a></li>
       <li><a href="./room.php">Dvorane</a></li>
       <li><a href="./building.php">Zgrade</a></li>
+      <li><a name="logout" href="./login.php">Odjava</a></li>
+      <div class="active-user">
+        <p>Prijavljeni ste kao: <?php {echo $korisnik;} ?></p>
+      </div>
     </ul>
-
     <div class="main-container">
       <form action="#">
         <div class="filter-raspored">
@@ -80,19 +99,11 @@
             <option value="Nedjelja">Nedjelja</option>
           </select>
 
-          <label for="nastavnik">Nastavnik</label>
-          <select id="nastavnik" name="nastavnik">
+          <label for="raspored">Raspored</label>
+          <select id="raspored" name="raspored">
           <?php
-              foreach( $nastavnici as $nastavnik) 
-                echo "<option value=\"{$nastavnik['prezime']}\">{$nastavnik['prezime']}</option>";
-          ?>
-          </select>
-
-          <label for="dvorana">Dvorana</label>
-          <select id="dvorana" name="dvorana">
-          <?php
-              foreach( $dvorane as $dvorana) 
-                echo "<option value=\"{$dvorana['naziv']}\">{$dvorana['naziv']}</option>";
+              foreach( $korisnikoviRasporedi as $korisnikovRaspored) 
+                echo "<option value=\"{$korisnikovRaspored['naziv']}\">{$korisnikovRaspored['naziv']}</option>";
           ?>
           </select>
 
@@ -106,6 +117,8 @@
         </form>
       </div>
     </div>
+
+    <p class="error"><?php {echo $pogreska;} ?></p>
 
     <div class="shedule-container">
     <?php
