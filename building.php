@@ -1,5 +1,6 @@
 <?php
   include_once './conn.php';
+  $korisnik = $_SESSION['kor_ime'];
 
   if(isset($_POST["submit"])){
     
@@ -31,6 +32,10 @@
       <li><a href="./professor.php">Profesori</a></li>
       <li><a href="./room.php">Dvorane</a></li>
       <li><a class="active" href="./building.php">Zgrade</a></li>
+      <li><a name="logout" href="./login.php">Odjava</a></li>
+      <div class="active-user">
+        <p>Prijavljeni ste kao: <?php {echo $korisnik;} ?></p>
+      </div>
     </ul>
 
     <div class="main-container">
