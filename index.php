@@ -1,13 +1,51 @@
 <?php
   include_once './conn.php';
 
+
+  if(isset($_POST["submit"])){
+    
+    $idPredmeta = pg_escape_string( $_POST['predmet']);
+    $idRasporeda = pg_escape_string( $_POST['raspored']);
+    
+    $query = "INSERT INTO se_nalazi (id_predmeta, id_rasporeda) VALUES ('$idPredmeta', '$idRasporeda')";
+    $rezultat = pg_query($dbconn, $query);
+    //print_r(pg_fetch_row($rezultat));
+  }
+
+
   $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');
+  $rezultatRasporeda = pg_query(
+    'SELECT
+      r.naziv AS naziv_rasporeda,
+      p.naziv AS naziv_predmeta,
+      p.ects,
+      p.opis,
+      v.dan,
+      n.ime,
+      n.prezime,
+      n.email,
+      v.vrijeme_od,
+      v.vrijeme_do,
+      d.naziv AS naziv_dvorane
+    FROM
+      raspored r
+      JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
+      JOIN predmet p on p.id_predmeta = sn.id_predmeta
+      JOIN traje t ON t.id_predmeta = p.id_predmeta
+      JOIN vrijeme v ON v.id_vremena = t.id_vremena
+      JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
+      JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
+      JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
+      JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+  ');
 
   $nastavnici =  pg_fetch_all($rezultatNastavnika);
   $dvorane =  pg_fetch_all($rezultatDvorana);
-  //print_r($nastavniciArray);
+  $rasporedi = pg_fetch_all($rezultatRasporeda);
 
+  
+  
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +108,9 @@
     </div>
 
     <div class="shedule-container">
+    <?php
+          foreach( $rasporedi as $raspored) {                     
+      ?>
       <div class="info-box">
         <div class="info-box__header">
           <figure class="info-box__subheader-figure">
@@ -79,7 +120,7 @@
               alt="club-image"
             />
           </figure>
-          <h2 class="info-box__title">Teorija baza podataka</h2>
+          <h2 class="info-box__title"><?php {echo $raspored['naziv_predmeta'];} ?></h2>
         </div>
 
         <div class="info-box__subheader">
@@ -92,7 +133,7 @@
               />
             </figure>
             <b><span class="info-box__subheader-box-text">ECTS</span></b>
-            <span class="info-box__subheader-box-text">5</span>
+            <span class="info-box__subheader-box-text"><?php {echo $raspored['ects'];} ?></span>
           </div>
 
           <div class="info-box__subheader-box">
@@ -104,7 +145,7 @@
               />
             </figure>
             <b><span class="info-box__subheader-box-text">Dvorana</span></b>
-            <span class="info-box__subheader-box-text">10</span>
+            <span class="info-box__subheader-box-text">  <?php {echo $raspored['naziv_dvorane'];} ?></span>
           </div>
           <div class="info-box__subheader-box">
             <figure class="info-box__subheader-figure">
@@ -115,7 +156,7 @@
               />
             </figure>
             <b><span class="info-box__subheader-box-text">Nastavnik</span></b>
-            <span class="info-box__subheader-box-text">Schatten</span>
+            <span class="info-box__subheader-box-text"><?php {echo $raspored['prezime'];} ?></span>
           </div>
           <div class="info-box__subheader-box">
             <figure class="info-box__subheader-figure">
@@ -126,7 +167,7 @@
               />
             </figure>
             <b><span class="info-box__subheader-box-text">Dan</span></b>
-            <span class="info-box__subheader-box-text">Utorak</span>
+            <span class="info-box__subheader-box-text"><?php {echo $raspored['dan'];} ?></span>
           </div>
           <div class="info-box__subheader-box">
             <figure class="info-box__subheader-figure">
@@ -137,7 +178,7 @@
               />
             </figure>
             <b><span class="info-box__subheader-box-text">Vrijeme</span></b>
-            <span class="info-box__subheader-box-text">10 AM</span>
+            <span class="info-box__subheader-box-text"><?php {echo $raspored['vrijeme_od']." - ".$raspored['vrijeme_do'];} ?></span>
           </div>
         </div>
 
@@ -145,10 +186,7 @@
           <b
             ><span class="info-box__subheader-box-text"
               >Opis predmeta <br /><br />
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-              omnis. Culpa a debitis cumque laborum nam enim quos recusandae
-              ullam molestiae expedita saepe illum pariatur nihil, vero et
-              minima quidem.
+              <?php {echo $raspored['opis'];} ?>
             </span></b
           >
         </p>
@@ -163,288 +201,9 @@
           </div>
         </b>
       </div>
-
-      <div class="info-box">
-        <div class="info-box__header">
-          <figure class="info-box__subheader-figure">
-            <img
-              class="info-box__subheader-img"
-              src="https://cdn.onlinewebfonts.com/svg/img_341860.png"
-              alt="club-image"
-            />
-          </figure>
-          <h2 class="info-box__title">Teorija baza podataka</h2>
-        </div>
-
-        <div class="info-box__subheader">
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                class="info-box__subheader-img"
-                src="https://static.thenounproject.com/png/2479138-200.png"
-                alt="country-image"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">ECTS</span></b>
-            <span class="info-box__subheader-box-text">5</span>
-          </div>
-
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://images.vexels.com/media/users/3/157343/isolated/preview/fa058a304813b6d204d29253f5cb90d4-flat-home-house-icon-by-vexels.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Dvorana</span></b>
-            <span class="info-box__subheader-box-text">10</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://cdn2.iconfinder.com/data/icons/education-people/512/22-512.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Nastavnik</span></b>
-            <span class="info-box__subheader-box-text">Schatten</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://www.flaticon.com/svg/static/icons/svg/1374/1374122.svg"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Dan</span></b>
-            <span class="info-box__subheader-box-text">Utorak</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://cdn3.iconfinder.com/data/icons/shipping-and-delivery-28/64/Delivery_and_Logistic-17-512.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Vrijeme</span></b>
-            <span class="info-box__subheader-box-text">10 AM</span>
-          </div>
-        </div>
-
-        <p class="info-box__about">
-          <b
-            ><span class="info-box__subheader-box-text"
-              >Opis predmeta <br /><br />
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-              omnis. Culpa a debitis cumque laborum nam enim quos recusandae
-              ullam molestiae expedita saepe illum pariatur nihil, vero et
-              minima quidem.
-            </span></b
-          >
-        </p>
-        <b>
-          <div class="info-box__footer">
-            <a
-              href="https://www.juventus.com/en/"
-              target="_blank"
-              class="info-box__btn-join"
-              >Službena stranica</a
-            >
-          </div>
-        </b>
-      </div>
-
-      <div class="info-box">
-        <div class="info-box__header">
-          <figure class="info-box__subheader-figure">
-            <img
-              class="info-box__subheader-img"
-              src="https://cdn.onlinewebfonts.com/svg/img_341860.png"
-              alt="club-image"
-            />
-          </figure>
-          <h2 class="info-box__title">Teorija baza podataka</h2>
-        </div>
-
-        <div class="info-box__subheader">
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                class="info-box__subheader-img"
-                src="https://static.thenounproject.com/png/2479138-200.png"
-                alt="country-image"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">ECTS</span></b>
-            <span class="info-box__subheader-box-text">5</span>
-          </div>
-
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://images.vexels.com/media/users/3/157343/isolated/preview/fa058a304813b6d204d29253f5cb90d4-flat-home-house-icon-by-vexels.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Dvorana</span></b>
-            <span class="info-box__subheader-box-text">10</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://cdn2.iconfinder.com/data/icons/education-people/512/22-512.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Nastavnik</span></b>
-            <span class="info-box__subheader-box-text">Schatten</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://www.flaticon.com/svg/static/icons/svg/1374/1374122.svg"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Dan</span></b>
-            <span class="info-box__subheader-box-text">Utorak</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://cdn3.iconfinder.com/data/icons/shipping-and-delivery-28/64/Delivery_and_Logistic-17-512.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Vrijeme</span></b>
-            <span class="info-box__subheader-box-text">10 AM</span>
-          </div>
-        </div>
-
-        <p class="info-box__about">
-          <b
-            ><span class="info-box__subheader-box-text"
-              >Opis predmeta <br /><br />
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-              omnis. Culpa a debitis cumque laborum nam enim quos recusandae
-              ullam molestiae expedita saepe illum pariatur nihil, vero et
-              minima quidem.
-            </span></b
-          >
-        </p>
-        <b>
-          <div class="info-box__footer">
-            <a
-              href="https://www.juventus.com/en/"
-              target="_blank"
-              class="info-box__btn-join"
-              >Službena stranica</a
-            >
-          </div>
-        </b>
-      </div>
-
-      <div class="info-box">
-        <div class="info-box__header">
-          <figure class="info-box__subheader-figure">
-            <img
-              class="info-box__subheader-img"
-              src="https://cdn.onlinewebfonts.com/svg/img_341860.png"
-              alt="club-image"
-            />
-          </figure>
-          <h2 class="info-box__title">Teorija baza podataka</h2>
-        </div>
-
-        <div class="info-box__subheader">
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                class="info-box__subheader-img"
-                src="https://static.thenounproject.com/png/2479138-200.png"
-                alt="country-image"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">ECTS</span></b>
-            <span class="info-box__subheader-box-text">5</span>
-          </div>
-
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://images.vexels.com/media/users/3/157343/isolated/preview/fa058a304813b6d204d29253f5cb90d4-flat-home-house-icon-by-vexels.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Dvorana</span></b>
-            <span class="info-box__subheader-box-text">10</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://cdn2.iconfinder.com/data/icons/education-people/512/22-512.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Nastavnik</span></b>
-            <span class="info-box__subheader-box-text">Schatten</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://www.flaticon.com/svg/static/icons/svg/1374/1374122.svg"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Dan</span></b>
-            <span class="info-box__subheader-box-text">Utorak</span>
-          </div>
-          <div class="info-box__subheader-box">
-            <figure class="info-box__subheader-figure">
-              <img
-                src="https://cdn3.iconfinder.com/data/icons/shipping-and-delivery-28/64/Delivery_and_Logistic-17-512.png"
-                alt="city-image"
-                class="info-box__subheader-img"
-              />
-            </figure>
-            <b><span class="info-box__subheader-box-text">Vrijeme</span></b>
-            <span class="info-box__subheader-box-text">10 AM</span>
-          </div>
-        </div>
-
-        <p class="info-box__about">
-          <b
-            ><span class="info-box__subheader-box-text"
-              >Opis predmeta <br /><br />
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-              omnis. Culpa a debitis cumque laborum nam enim quos recusandae
-              ullam molestiae expedita saepe illum pariatur nihil, vero et
-              minima quidem.
-            </span></b
-          >
-        </p>
-        <b>
-          <div class="info-box__footer">
-            <a
-              href="https://www.juventus.com/en/"
-              target="_blank"
-              class="info-box__btn-join"
-              >Službena stranica</a
-            >
-          </div>
-        </b>
-      </div>
+      <?php 
+        }; 
+      ?>
     </div>
     <script src="script.js"></script>
   </body>
