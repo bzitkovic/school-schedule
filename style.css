@@ -109,6 +109,20 @@ li a:hover:not(.active) {
   border-radius: 5px;
 }
 
+.btn-crud {
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+  color: #fff;
+  background-color: darkblue;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-family: inherit;
+  font-size: 20px;
+  border: 0;
+  border-radius: 5px;
+}
+
 .btn:focus {
   outline: 0;
 }

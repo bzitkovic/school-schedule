@@ -1,6 +1,30 @@
 <?php
   include_once './conn.php';
 
+  if(isset($_POST["update"])){
+
+    $idPredmeta = $_POST["update"];
+
+    $query = "SELECT * from predmet WHERE id_predmeta = '$idPredmeta' ";
+    $rezultatPredmeta = pg_query($dbconn, $query);
+    $predmeti = pg_fetch_all($rezultatPredmeta);
+
+    $query2 = "SELECT
+                  *
+              FROM
+                  vrijeme v
+                  JOIN traje t ON t.id_vremena = v.id_vremena
+                  JOIN predmet p ON p.id_predmeta = t.id_predmeta
+              WHERE
+                  p.id_predmeta = '$idPredmeta';
+              ";
+              
+    $rezultatVremena = pg_query($dbconn, $query2);
+    $vrijeme = pg_fetch_all($rezultatVremena);
+    $_SESSION['vrijeme'] = $vrijeme[0]['id_vremena'];
+
+  }
+
   $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');
   
@@ -24,12 +48,19 @@
       <h1>Stvori novi predmet</h1>
       <form method="POST" action="./subject.php">
         <div class="form-control">
-          <input name="naziv_predmeta" type="text" required />
+          <input name="naziv_predmeta" value="<?php 
+          if(isset($predmeti))
+            {echo $predmeti[0]['naziv'];} 
+          ?>" 
+          type="text" required />
           <label>Naziv predmeta</label>
         </div>
 
         <div class="form-control">
-          <input name="broj_ectsa" type="number" min="1" max="10" required />
+          <input name="broj_ectsa" type="number" min="1" max="10" value="<?php 
+          if(isset($predmeti))
+            {echo $predmeti[0]['ects'];} 
+          ?>"  required />
           <label>Broj ECTS-a</label>
         </div>
 
@@ -68,12 +99,18 @@
 
         <label>Vrijeme od</label>
         <div class="form-control">
-          <input name="vrijeme_od" type="time" required />
+          <input name="vrijeme_od" type="time" value="<?php 
+          if(isset($vrijeme))
+            {echo $vrijeme[0]['vrijeme_od'];} 
+          ?>"  required />
         </div>
 
         <label>Vrijeme do</label>
         <div class="form-control">
-          <input name="vrijeme_do" type="time" required />
+          <input name="vrijeme_do" type="time" value="<?php 
+          if(isset($vrijeme))
+            {echo $vrijeme[0]['vrijeme_do'];} 
+          ?>"  required />
         </div>
 
         <label for="opis_predmeta">Opis predmeta</label>
@@ -84,10 +121,15 @@
             cols="40"
             rows="10"
             required
-          ></textarea>
+          ><?php if(isset($predmeti)) {echo $predmeti[0]['opis'];} ?> 
+        </textarea>
         </div>
 
-        <button name="submit" class="btn">Stvori predmet</button>
+        <?php if(isset($predmeti)){ ?>
+          <button value="<?php {echo $predmeti[0]['id_predmeta'];} ?>" name="update" class="btn">Uredi predmet</button>
+        <?php } else { ?>
+          <button name="submit" class="btn">Kreiraj predmet</button>
+        <?php } ?>
 
         <p class="text">
           Povratak na popis predmeta? <a href="./subject.php">Vrati se</a>
