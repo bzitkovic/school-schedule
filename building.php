@@ -11,6 +11,22 @@
     $rezultat = pg_query($dbconn, $query);
   }
 
+  if(isset($_POST["delete"])){
+    $idZgrade = $_POST["delete"];
+    $query = "DELETE FROM zgrada WHERE id_zgrade = '$idZgrade' ";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  if(isset($_POST["update"])){
+
+    $idZgrade = $_POST["update"];
+    $nazivZgrade = pg_escape_string( $_POST['naziv_zgrade']);
+    $adresaZgrade = pg_escape_string( $_POST['adresa_zgrade']);
+    
+    $query = "UPDATE zgrada SET naziv = '$nazivZgrade', adresa = '$adresaZgrade' WHERE id_zgrade = '$idZgrade'";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
   $rezultatZgrada = pg_query('SELECT * FROM zgrada');
 
   $zgrade =  pg_fetch_all($rezultatZgrada);
@@ -76,6 +92,13 @@
             </span>
           </div>
         </div>
+          <form method="POST" action="./new_building.php">
+            <button value="<?php {echo $zgrada['id_zgrade'];} ?>" class="btn-crud" type="submit" name="update">Uredi</button>
+          </form>
+        
+          <form  method="POST" action="./building.php">
+            <button value="<?php {echo $zgrada['id_zgrade'];} ?>" class="btn-crud" type="submit" name="delete">Izbriši</button>
+          </form>
       </div>
       <?php 
         }; 
