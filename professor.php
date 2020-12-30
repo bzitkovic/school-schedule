@@ -12,6 +12,26 @@
     $rezultat = pg_query($dbconn, $query);
   }
 
+  if(isset($_POST["delete"])){
+    $idNastavnika = $_POST["delete"];
+    $query = "DELETE FROM nastavnik WHERE id_nastavnika = '$idNastavnika' ";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  if(isset($_POST["update"])){
+
+    $idNastavnika = $_POST["update"];
+    $imeNastavnika = pg_escape_string( $_POST['ime_nastavnika']);
+    $prezimeNastavnika = pg_escape_string( $_POST['prezime_nastavnika']);
+    $emailNastavnika = pg_escape_string( $_POST['email_nastavnika']);
+
+    $query = "UPDATE nastavnik SET ime = '$imeNastavnika', prezime = '$prezimeNastavnika', email = '$emailNastavnika' WHERE id_nastavnika = '$idNastavnika'";
+    $rezultat = pg_query($dbconn, $query);
+
+
+  }
+
+
   $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
 
   $nastavnici = pg_fetch_all($rezultatNastavnika);
@@ -78,14 +98,13 @@
           </div>
         </div>
         <b>
-          <div class="info-box__footer">
-            <a
-              href="mailto:<?php {echo $nastavnik['email'];} ?>"
-              target="_blank"
-              class="info-box__btn-join"
-              >Pošalji email</a
-            >
-          </div>
+          <form method="POST" action="./new_professor.php">
+            <button value="<?php {echo $nastavnik['id_nastavnika'];} ?>" class="btn-crud" type="submit" name="update">Uredi</button>
+          </form>
+        
+          <form  method="POST" action="./professor.php">
+            <button value="<?php {echo $nastavnik['id_nastavnika'];} ?>" class="btn-crud" type="submit" name="delete">Izbriši</button>
+          </form>
         </b>
       </div>
       <?php 
