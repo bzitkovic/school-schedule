@@ -92,7 +92,7 @@
             <span class="info-box__subheader-box-text"> <?php {echo $dvorana['broj_mjesta'];} ?> </span>
           </div>
         </div>
-        <form method="POST" action="./new_room.php">
+          <form method="POST" action="./new_room.php">
             <button value="<?php {echo $dvorana['id_dvorane'];} ?>" class="btn-crud" type="submit" name="update">Uredi</button>
           </form>
         
