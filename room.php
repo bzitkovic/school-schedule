@@ -10,7 +10,23 @@
     
     $query = "INSERT INTO dvorana (naziv, broj_mjesta, id_zgrade) VALUES ('$nazivDvorane', '$brojMjesta', '$idZgrade') RETURNING id_dvorane AS id";
     $rezultat = pg_query($dbconn, $query);
-    //print_r(pg_fetch_row($rezultat));
+  }
+
+  if(isset($_POST["delete"])){
+    $idDvorane = $_POST["delete"];
+    $query = "DELETE FROM dvorana WHERE id_dvorane = '$idDvorane' ";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  if(isset($_POST["update"])){
+
+    $idDvorane = $_POST["update"];
+    $nazivDvorane = pg_escape_string( $_POST['naziv_dvorane']);
+    $brojMjesta = pg_escape_string( $_POST['broj_mjesta']);
+    $idZgrade = pg_escape_string( $_POST['zgrada']);
+    
+    $query = "UPDATE dvorana SET naziv = '$nazivDvorane', broj_mjesta = '$brojMjesta', id_zgrade = '$idZgrade' WHERE id_dvorane = '$idDvorane'";
+    $rezultat = pg_query($dbconn, $query);
   }
 
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');
@@ -76,6 +92,13 @@
             <span class="info-box__subheader-box-text"> <?php {echo $dvorana['broj_mjesta'];} ?> </span>
           </div>
         </div>
+        <form method="POST" action="./new_room.php">
+            <button value="<?php {echo $dvorana['id_dvorane'];} ?>" class="btn-crud" type="submit" name="update">Uredi</button>
+          </form>
+        
+          <form  method="POST" action="./room.php">
+            <button value="<?php {echo $dvorana['id_dvorane'];} ?>" class="btn-crud" type="submit" name="delete">Izbriši</button>
+          </form>
       </div>
       <?php 
         }; 
