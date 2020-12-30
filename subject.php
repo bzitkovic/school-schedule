@@ -36,6 +36,42 @@
    
   }
 
+  if(isset($_POST["delete"])){
+    $idPredmeta = $_POST["delete"];
+    $query = "DELETE FROM predmet WHERE id_predmeta = '$idPredmeta' ";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  if(isset($_POST["update"])){
+
+    $idPredmeta = $_POST["update"];
+    $nazivPredmeta = pg_escape_string( $_POST['naziv_predmeta']);
+    $brojEctsa = pg_escape_string( $_POST['broj_ectsa']);
+    $idNastavnika = pg_escape_string( $_POST['nastavnik']);
+    $idDvorane = pg_escape_string( $_POST['dvorana']);
+    $dan = pg_escape_string( $_POST['dan']);
+    $idVremena = $_SESSION['vrijeme'];
+    $vrijemeOd = pg_escape_string( $_POST['vrijeme_od']);
+    $vrijemeDo = pg_escape_string( $_POST['vrijeme_do']);
+    $opisPredmeta = pg_escape_string( $_POST['opis_predmeta']);
+
+    $query = "UPDATE predmet SET naziv = '$nazivPredmeta', ects = '$brojEctsa', opis = '$opisPredmeta' WHERE id_predmeta = '$idPredmeta' ";
+    $rezultat = pg_query($dbconn, $query);
+    
+
+    $query2 = "UPDATE vrijeme v SET dan = '$dan', vrijeme_od = '$vrijemeOd', vrijeme_do = '$vrijemeDo' FROM traje t WHERE t.id_predmeta = '$idPredmeta' 
+               AND t.id_vremena = '$idVremena' AND v.id_vremena = '$idVremena' ";
+    $rezultat = pg_query($dbconn, $query2);
+
+    $query3 = "UPDATE predaje p SET id_predmeta = '$idPredmeta', id_nastavnika = '$idNastavnika' WHERE p.id_predmeta = '$idPredmeta'";
+    $rezultat = pg_query($dbconn, $query3);
+
+    $query4 = "UPDATE se_izvodi si SET id_predmeta = '$idPredmeta', id_dvorane = '$idDvorane' WHERE si.id_predmeta = '$idPredmeta' ";
+    $rezultat = pg_query($dbconn, $query4);
+
+
+  }
+
   $rezultatPredmeta = pg_query('SELECT * FROM predmet');
 
   $predmeti =  pg_fetch_all($rezultatPredmeta);
@@ -109,13 +145,15 @@
           >
         </p>
         <b>
-          <div class="info-box__footer">
-            <a
-              href="#"
-              class="info-box__btn-join"
-              >Službena stranica</a
-            >
-          </div>
+         
+          <form method="POST" action="./new_subject.php">
+            <button value="<?php {echo $predmet['id_predmeta'];} ?>" class="btn-crud" type="submit" name="update">Uredi</button>
+          </form>
+        
+          <form  method="POST" action="./subject.php">
+            <button value="<?php {echo $predmet['id_predmeta'];} ?>" class="btn-crud" type="submit" name="delete">Izbriši</button>
+          </form>
+         
         </b>
       </div>
       <?php 
