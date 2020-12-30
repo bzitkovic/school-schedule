@@ -1,6 +1,16 @@
 <?php
   include_once './conn.php';
 
+  if(isset($_POST["update"])){
+
+    $idDvorane = $_POST["update"];
+
+    $query = "SELECT * from dvorana WHERE id_dvorane = '$idDvorane' ";
+    $rezultatDvorane = pg_query($dbconn, $query);
+    $dvorane = pg_fetch_all($rezultatDvorane);
+
+  }
+
   $rezultatZgrada = pg_query('SELECT * FROM zgrada');
 
   $zgrade =  pg_fetch_all($rezultatZgrada);
@@ -21,12 +31,18 @@
       <h1>Stvori novi dvoranu</h1>
       <form  method="POST" action="./room.php">
         <div class="form-control">
-          <input name="naziv_dvorane" type="text" required />
+          <input name="naziv_dvorane" type="text" value="<?php 
+          if(isset($dvorane))
+            {echo $dvorane[0]['naziv'];} 
+          ?>"  required />
           <label>Naziv dvorane</label>
         </div>
 
         <div class="form-control">
-          <input name="broj_mjesta" type="number" min="1" max="500" required />
+          <input name="broj_mjesta" type="number" min="1" max="500" value="<?php 
+          if(isset($dvorane))
+            {echo $dvorane[0]['broj_mjesta'];} 
+          ?>" required />
           <label>Broj mjesta</label>
         </div>
 
@@ -40,7 +56,11 @@
             </select>
           </div>
 
-        <button name="submit" type="submit" class="btn">Stvori dvoranu</button>
+          <?php if(isset($dvorane)){ ?>
+          <button value="<?php {echo $dvorane[0]['id_dvorane'];} ?>" name="update" class="btn">Uredi dvoranu</button>
+          <?php } else { ?>
+            <button name="submit" class="btn">Kreiraj dvoranu</button>
+          <?php } ?>
 
         <p class="text">
           Povratak na popis dvorana? <a href="./room.php">Vrati se</a>
