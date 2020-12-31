@@ -16,7 +16,112 @@
      
       $pogreska = "Predmet već postoji na rasporedu!";
     }
+  }
 
+  if(isset($_POST["submit_schedule"])){
+    
+    $nazivRasporeda = pg_escape_string( $_POST['naziv_rasporeda']);
+    $query = "SELECT * FROM korisnik k WHERE k.korisnicko_ime = '$korisnik'";
+    $rezultatKorisnika = pg_query($dbconn, $query);
+    $korisnikId =  pg_fetch_all($rezultatKorisnika)[0]['id_korisnika'];
+    
+    $query2 = "INSERT INTO raspored (naziv, id_korisnika) VALUES ('$nazivRasporeda', '$korisnikId')";
+    $rezultat = pg_query($dbconn, $query2);
+    
+    if(!$rezultat){
+     
+      $pogreska = "Predmet već postoji na rasporedu!";
+    }
+  }
+
+  if(isset($_POST["delete"])){
+    $idPredmeta = $_POST["delete"];
+    $query = "DELETE FROM se_nalazi WHERE id_predmeta = '$idPredmeta' ";
+    $rezultat = pg_query($dbconn, $query);
+  }
+
+  if(isset($_POST["search"])) {
+    $dan = pg_escape_string( $_POST['dan']);
+    $nazivRaspreda = pg_escape_string( $_POST['raspored']);
+
+    $rezultatRasporeda = pg_query(
+      "SELECT
+        r.naziv AS naziv_rasporeda,
+        p.naziv AS naziv_predmeta,
+        p.id_predmeta,
+        p.ects,
+        p.opis,
+        v.dan,
+        n.ime,
+        n.prezime,
+        n.email,
+        v.vrijeme_od,
+        v.vrijeme_do,
+        d.naziv AS naziv_dvorane
+      FROM
+        raspored r
+        JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
+        JOIN predmet p on p.id_predmeta = sn.id_predmeta
+        JOIN traje t ON t.id_predmeta = p.id_predmeta
+        JOIN vrijeme v ON v.id_vremena = t.id_vremena
+        JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
+        JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
+        JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
+        JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+        WHERE v.dan = '$dan' AND r.naziv = '$nazivRaspreda'
+    ");  
+  } elseif(isset($_POST["search_all"])) {
+    $rezultatRasporeda = pg_query(
+      'SELECT
+        r.naziv AS naziv_rasporeda,
+        p.naziv AS naziv_predmeta,
+        p.id_predmeta,
+        p.ects,
+        p.opis,
+        v.dan,
+        n.ime,
+        n.prezime,
+        n.email,
+        v.vrijeme_od,
+        v.vrijeme_do,
+        d.naziv AS naziv_dvorane
+      FROM
+        raspored r
+        JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
+        JOIN predmet p on p.id_predmeta = sn.id_predmeta
+        JOIN traje t ON t.id_predmeta = p.id_predmeta
+        JOIN vrijeme v ON v.id_vremena = t.id_vremena
+        JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
+        JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
+        JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
+        JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+    ');  
+  } else {
+    $rezultatRasporeda = pg_query(
+      'SELECT
+        r.naziv AS naziv_rasporeda,
+        p.naziv AS naziv_predmeta,
+        p.id_predmeta,
+        p.ects,
+        p.opis,
+        v.dan,
+        n.ime,
+        n.prezime,
+        n.email,
+        v.vrijeme_od,
+        v.vrijeme_do,
+        d.naziv AS naziv_dvorane
+      FROM
+        raspored r
+        JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
+        JOIN predmet p on p.id_predmeta = sn.id_predmeta
+        JOIN traje t ON t.id_predmeta = p.id_predmeta
+        JOIN vrijeme v ON v.id_vremena = t.id_vremena
+        JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
+        JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
+        JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
+        JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+    ');  
   }
 
   $rezultatKorisnikovihrasporeda = pg_query(
@@ -30,38 +135,12 @@
 
   $rezultatNastavnika = pg_query('SELECT * FROM nastavnik');
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');
-  $rezultatRasporeda = pg_query(
-    'SELECT
-      r.naziv AS naziv_rasporeda,
-      p.naziv AS naziv_predmeta,
-      p.ects,
-      p.opis,
-      v.dan,
-      n.ime,
-      n.prezime,
-      n.email,
-      v.vrijeme_od,
-      v.vrijeme_do,
-      d.naziv AS naziv_dvorane
-    FROM
-      raspored r
-      JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
-      JOIN predmet p on p.id_predmeta = sn.id_predmeta
-      JOIN traje t ON t.id_predmeta = p.id_predmeta
-      JOIN vrijeme v ON v.id_vremena = t.id_vremena
-      JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
-      JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
-      JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
-      JOIN dvorana d ON d.id_dvorane = si.id_dvorane
-  ');
-
+  
   $korisnikoviRasporedi = pg_fetch_all($rezultatKorisnikovihrasporeda);
   $nastavnici =  pg_fetch_all($rezultatNastavnika);
   $dvorane =  pg_fetch_all($rezultatDvorana);
   $rasporedi = pg_fetch_all($rezultatRasporeda);
-
-  
-  
+ 
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +164,7 @@
       </div>
     </ul>
     <div class="main-container">
-      <form action="#">
+      <form method="POST" action="./index.php">
         <div class="filter-raspored">
           <h2>Pretraži raspored</h2>
           <label for="dan">Dan</label>
@@ -107,13 +186,17 @@
           ?>
           </select>
 
-          <button class="main-btn">Pretraži</button>
-          <button class="main-btn">Pretraži sve</button>
+          <button class="main-btn" name="search">Pretraži</button>
+          <button class="main-btn" name="search_all">Pretraži sve</button>
         </div>
       </form>
       <div class="filter-raspored">
         <form action="./new_schedule.php">
           <button class="main-btn">Dodaj predmet</button>
+        </form>
+
+        <form action="./new_user_schedule.php">
+          <button class="main-btn">Novi raspored</button>
         </form>
       </div>
     </div>
@@ -204,14 +287,11 @@
           >
         </p>
         <b>
-          <div class="info-box__footer">
-            <a
-              href="https://www.juventus.com/en/"
-              target="_blank"
-              class="info-box__btn-join"
-              >Službena stranica</a
-            >
-          </div>
+         
+          <form  method="POST" action="./index.php">
+            <button value="<?php {echo $raspored['id_predmeta'];} ?>" class="btn-crud" type="submit" name="delete">Ukloni s rasporeda</button>
+          </form>
+      
         </b>
       </div>
       <?php 
