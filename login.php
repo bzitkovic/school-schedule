@@ -10,9 +10,7 @@
     
     $query = "SELECT * FROM korisnik WHERE korisnicko_ime = '$korisnickoIme' AND lozinka = '$lozinka' ";
     $rezultat = pg_query($dbconn, $query);
-
     
-
     if(pg_num_rows($rezultat) == 1) {
       header('Location: ./index.php');
     } else {
@@ -20,6 +18,17 @@
     }
 
     $_SESSION['kor_ime'] = $korisnickoIme;
+  }
+
+  if(isset($_POST["submit_register"])) {
+
+    $korisnickoIme = pg_escape_string( $_POST['kor_ime']);
+    $email = pg_escape_string( $_POST['email']);
+    $lozinka = pg_escape_string( $_POST['lozinka']);
+
+    $query = "INSERT INTO korisnik (korisnicko_ime, lozinka, email) VALUES ('$korisnickoIme', '$lozinka', '$email')";
+    $rezultat = pg_query($dbconn, $query);
+    
   }
 
   $rezultatDvorana = pg_query('SELECT * FROM dvorana');

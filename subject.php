@@ -72,7 +72,18 @@
 
   }
 
-  $rezultatPredmeta = pg_query('SELECT * FROM predmet');
+  $rezultatPredmeta = pg_query(
+    "SELECT
+      p.id_predmeta,
+      p.naziv,
+      p.ects,
+      p.opis
+    FROM
+      predmet p
+      JOIN se_nalazi sn ON sn.id_predmeta = p.id_predmeta
+      JOIN raspored r ON r.id_rasporeda = sn.id_rasporeda
+      JOIN korisnik k ON k.id_korisnika = r.id_korisnika
+      WHERE k.korisnicko_ime = '$korisnik' ");
 
   $predmeti =  pg_fetch_all($rezultatPredmeta);
  
