@@ -9,19 +9,19 @@
   <body>
     <div class="login-container">
       <h1>Registrirajte se</h1>
-      <form action="./login.php">
+      <form method="POST" action="./login.php">
         <div class="form-control">
-          <input type="text" required />
+          <input name="kor_ime" type="text" required />
           <label>Korisničko ime</label>
         </div>
 
         <div class="form-control">
-          <input type="text" required />
+          <input name="email" type="text" required />
           <label>Email</label>
         </div>
 
         <div class="form-control">
-          <input type="password" required />
+          <input name="lozinka" type="password" required />
           <label>Lozinka</label>
         </div>
 
@@ -30,7 +30,7 @@
           <label>Ponovljena lozinka</label>
         </div>
 
-        <button class="btn">Registracija</button>
+        <button name="submit_register" class="btn">Registracija</button>
 
         <p class="text">
           Natrag na prijavu?<a href="./login.php"> Prijava</a>

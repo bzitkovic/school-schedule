@@ -68,37 +68,40 @@
         JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
         JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
         JOIN dvorana d ON d.id_dvorane = si.id_dvorane
-        WHERE v.dan = '$dan' AND r.naziv = '$nazivRaspreda'
+        JOIN korisnik k ON k.id_korisnika = r.id_korisnika
+        WHERE v.dan = '$dan' AND r.naziv = '$nazivRaspreda' AND  k.korisnicko_ime = '$korisnik'
     ");  
   } elseif(isset($_POST["search_all"])) {
     $rezultatRasporeda = pg_query(
-      'SELECT
-        r.naziv AS naziv_rasporeda,
-        p.naziv AS naziv_predmeta,
-        p.id_predmeta,
-        p.ects,
-        p.opis,
-        v.dan,
-        n.ime,
-        n.prezime,
-        n.email,
-        v.vrijeme_od,
-        v.vrijeme_do,
-        d.naziv AS naziv_dvorane
-      FROM
-        raspored r
-        JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
-        JOIN predmet p on p.id_predmeta = sn.id_predmeta
-        JOIN traje t ON t.id_predmeta = p.id_predmeta
-        JOIN vrijeme v ON v.id_vremena = t.id_vremena
-        JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
-        JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
-        JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
-        JOIN dvorana d ON d.id_dvorane = si.id_dvorane
-    ');  
+    "SELECT
+      r.naziv AS naziv_rasporeda,
+      p.naziv AS naziv_predmeta,
+      p.id_predmeta,
+      p.ects,
+      p.opis,
+      v.dan,
+      n.ime,
+      n.prezime,
+      n.email,
+      v.vrijeme_od,
+      v.vrijeme_do,
+      d.naziv AS naziv_dvorane
+    FROM
+      raspored r
+      JOIN se_nalazi sn ON sn.id_rasporeda = r.id_rasporeda
+      JOIN predmet p on p.id_predmeta = sn.id_predmeta
+      JOIN traje t ON t.id_predmeta = p.id_predmeta
+      JOIN vrijeme v ON v.id_vremena = t.id_vremena
+      JOIN predaje pr ON pr.id_predmeta = p.id_predmeta
+      JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
+      JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
+      JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+      JOIN korisnik k ON k.id_korisnika = r.id_korisnika
+      WHERE k.korisnicko_ime = '$korisnik'
+    ");  
   } else {
     $rezultatRasporeda = pg_query(
-      'SELECT
+      "SELECT
         r.naziv AS naziv_rasporeda,
         p.naziv AS naziv_predmeta,
         p.id_predmeta,
@@ -121,7 +124,9 @@
         JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
         JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
         JOIN dvorana d ON d.id_dvorane = si.id_dvorane
-    ');  
+        JOIN korisnik k ON k.id_korisnika = r.id_korisnika
+        WHERE k.korisnicko_ime = '$korisnik'
+    ");  
   }
 
   $rezultatKorisnikovihrasporeda = pg_query(

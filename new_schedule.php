@@ -1,8 +1,9 @@
 <?php
   include_once './conn.php';
+  $korisnik = $_SESSION['kor_ime'];
 
   $rezultatPredmeta = pg_query('SELECT * FROM predmet');
-  $rezultatRasporeda = pg_query('SELECT * FROM raspored');
+  $rezultatRasporeda = pg_query("SELECT * FROM raspored r JOIN korisnik k ON k.id_korisnika = r.id_korisnika WHERE k.korisnicko_ime = '$korisnik'");
 
   $predmeti =  pg_fetch_all($rezultatPredmeta);
   $rasporedi =  pg_fetch_all($rezultatRasporeda);
