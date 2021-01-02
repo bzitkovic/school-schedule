@@ -51,7 +51,7 @@
           <select id="zgrada" name="zgrada">
               <?php
                   foreach( $zgrade as $zgrada) 
-                    echo "<option value=\"{$zgrada['ID_zgrade']}\">{$zgrada['naziv']}</option>";
+                    echo "<option value=\"{$zgrada['id_zgrade']}\">{$zgrada['naziv']}</option>";
               ?>
             </select>
           </div>

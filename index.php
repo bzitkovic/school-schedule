@@ -28,10 +28,6 @@
     $query2 = "INSERT INTO raspored (naziv, id_korisnika) VALUES ('$nazivRasporeda', '$korisnikId')";
     $rezultat = pg_query($dbconn, $query2);
     
-    if(!$rezultat){
-     
-      $pogreska = "Predmet već postoji na rasporedu!";
-    }
   }
 
   if(isset($_POST["delete"])){
@@ -48,6 +44,7 @@
       "SELECT
         r.naziv AS naziv_rasporeda,
         p.naziv AS naziv_predmeta,
+        z.naziv AS naziv_zgrade,
         p.id_predmeta,
         p.ects,
         p.opis,
@@ -68,6 +65,7 @@
         JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
         JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
         JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+        JOIN zgrada z ON z.id_zgrade = d.id_zgrade
         JOIN korisnik k ON k.id_korisnika = r.id_korisnika
         WHERE v.dan = '$dan' AND r.naziv = '$nazivRaspreda' AND  k.korisnicko_ime = '$korisnik'
     ");  
@@ -76,6 +74,7 @@
     "SELECT
       r.naziv AS naziv_rasporeda,
       p.naziv AS naziv_predmeta,
+      z.naziv AS naziv_zgrade,
       p.id_predmeta,
       p.ects,
       p.opis,
@@ -96,6 +95,7 @@
       JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
       JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
       JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+      JOIN zgrada z ON z.id_zgrade = d.id_zgrade
       JOIN korisnik k ON k.id_korisnika = r.id_korisnika
       WHERE k.korisnicko_ime = '$korisnik'
     ");  
@@ -104,6 +104,7 @@
       "SELECT
         r.naziv AS naziv_rasporeda,
         p.naziv AS naziv_predmeta,
+        z.naziv AS naziv_zgrade,
         p.id_predmeta,
         p.ects,
         p.opis,
@@ -124,6 +125,7 @@
         JOIN nastavnik n ON n.id_nastavnika = pr.id_nastavnika
         JOIN se_izvodi si ON si.id_predmeta = p.id_predmeta
         JOIN dvorana d ON d.id_dvorane = si.id_dvorane
+        JOIN zgrada z ON z.id_zgrade = d.id_zgrade
         JOIN korisnik k ON k.id_korisnika = r.id_korisnika
         WHERE k.korisnicko_ime = '$korisnik'
     ");  
@@ -247,6 +249,18 @@
             </figure>
             <b><span class="info-box__subheader-box-text">Dvorana</span></b>
             <span class="info-box__subheader-box-text">  <?php {echo $raspored['naziv_dvorane'];} ?></span>
+          </div>
+
+          <div class="info-box__subheader-box">
+            <figure class="info-box__subheader-figure">
+              <img
+                src="https://cdn.iconscout.com/icon/free/png-256/building-1741335-1484597.png"
+                alt="city-image"
+                class="info-box__subheader-img"
+              />
+            </figure>
+            <b><span class="info-box__subheader-box-text">Zgrada</span></b>
+            <span class="info-box__subheader-box-text">  <?php {echo $raspored['naziv_zgrade'];} ?></span>
           </div>
           <div class="info-box__subheader-box">
             <figure class="info-box__subheader-figure">

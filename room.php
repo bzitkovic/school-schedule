@@ -20,7 +20,7 @@
 
   if(isset($_POST["update"])){
 
-    $idDvorane = $_POST["update"];
+    $idDvorane = pg_escape_string( $_POST["update"]);
     $nazivDvorane = pg_escape_string( $_POST['naziv_dvorane']);
     $brojMjesta = pg_escape_string( $_POST['broj_mjesta']);
     $idZgrade = pg_escape_string( $_POST['zgrada']);
@@ -29,7 +29,9 @@
     $rezultat = pg_query($dbconn, $query);
   }
 
-  $rezultatDvorana = pg_query('SELECT * FROM dvorana');
+  $rezultatDvorana = pg_query(
+    "SELECT d.id_zgrade, d.naziv AS naziv_dvorane, d.broj_mjesta, z.id_zgrade, z.naziv AS naziv_zgrade 
+    FROM dvorana d JOIN zgrada z ON z.id_zgrade = d.id_zgrade;");
 
   $dvorane =  pg_fetch_all($rezultatDvorana);
  
@@ -76,7 +78,7 @@
               alt="club-image"
             />
           </figure>
-          <h2 class="info-box__title"><?php {echo $dvorana['naziv'];} ?></h2>
+          <h2 class="info-box__title"><?php {echo $dvorana['naziv_dvorane'];} ?></h2>
         </div>
 
         <div class="info-box__subheader">
@@ -90,6 +92,18 @@
             </figure>
             <b><span class="info-box__subheader-box-text">Broj mjesta</span></b>
             <span class="info-box__subheader-box-text"> <?php {echo $dvorana['broj_mjesta'];} ?> </span>
+          </div>
+
+          <div class="info-box__subheader-box">
+            <figure class="info-box__subheader-figure">
+              <img
+                class="info-box__subheader-img"
+                src="https://cdn.iconscout.com/icon/free/png-256/building-1741335-1484597.png"
+                alt="country-image"
+              />
+            </figure>
+            <b><span class="info-box__subheader-box-text">Zgrada</span></b>
+            <span class="info-box__subheader-box-text"> <?php {echo $dvorana['naziv_zgrade'];} ?> </span>
           </div>
         </div>
           <form method="POST" action="./new_room.php">
