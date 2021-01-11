@@ -109,6 +109,18 @@ li a:hover:not(.active) {
   border-radius: 5px;
 }
 
+.btn_delete_acc {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #fff;
+  background-color: darkblue;
+  padding: 5px;
+  border: 0;
+  border-radius: 5px;
+}
+
 .btn-crud {
   cursor: pointer;
   display: inline-block;
@@ -327,7 +339,7 @@ select {
 
 .subject-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   padding: 60px;
   gap: 30px;
 }

@@ -1,4 +1,5 @@
 <?php
+  error_reporting(E_ERROR | E_PARSE);
   include_once './conn.php';
   $korisnik = $_SESSION['kor_ime'];
 
@@ -29,9 +30,7 @@
     $rezultat = pg_query($dbconn, $query);
   }
 
-  $rezultatDvorana = pg_query(
-    "SELECT d.id_zgrade, d.naziv AS naziv_dvorane, d.broj_mjesta, z.id_zgrade, z.naziv AS naziv_zgrade 
-    FROM dvorana d JOIN zgrada z ON z.id_zgrade = d.id_zgrade;");
+  $rezultatDvorana = pg_query('SELECT * FROM izlistaj_dvorane');
 
   $dvorane =  pg_fetch_all($rezultatDvorana);
  
