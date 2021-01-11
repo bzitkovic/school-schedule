@@ -1,0 +1,345 @@
+@import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Muli", sans-serif;
+  height: 100vh;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  align-content: center;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  font-size: 25px;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active-user {
+  padding-left: 800px;
+  color: #fff;
+}
+
+.active {
+  background-color: darkblue;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px 40px;
+  border-radius: 5px;
+}
+
+.login-container {
+  background-color: slateblue;
+  color: #fff;
+  font-family: "Muli", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.login-container-subject {
+  background-color: slateblue;
+  color: #fff;
+  font-family: "Muli", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150vh;
+  margin: 0;
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-container a {
+  text-decoration: none;
+  color: darkblue;
+}
+
+.form-control {
+  position: relative;
+  margin: 20px 0 40px;
+  width: 300px;
+}
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+  color: #fff;
+  background-color: darkblue;
+  padding: 15px;
+  font-family: inherit;
+  font-size: 16px;
+  border: 0;
+  border-radius: 5px;
+}
+
+.btn_delete_acc {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #fff;
+  background-color: darkblue;
+  padding: 5px;
+  border: 0;
+  border-radius: 5px;
+}
+
+.btn-crud {
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+  color: #fff;
+  background-color: darkblue;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-family: inherit;
+  font-size: 20px;
+  border: 0;
+  border-radius: 5px;
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.text {
+  margin-top: 30px;
+}
+
+.form-control input {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px #fff solid;
+  display: block;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 18px;
+  columns: #fff;
+}
+
+.form-control input:focus,
+.form-control input:valid {
+  outline: 0;
+  border-bottom-color: darkblue;
+  color: #fff;
+}
+
+.form-control label {
+  position: absolute;
+  top: 15px;
+  left: 0;
+}
+
+.form-control label span {
+  display: inline-block;
+  font-size: 18px;
+  min-width: 5px;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-control input:focus + label span,
+.form-control input:valid + label span {
+  color: darkblue;
+  transform: translateY(-30px);
+}
+
+.error {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: rgb(141, 7, 7);
+}
+
+.error-text {
+  font-weight: 600;
+  color: rgb(141, 7, 7);
+}
+
+/* Filter schedule */
+
+select {
+  width: 200px;
+  padding: 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.main-container {
+  border-radius: 5px;
+}
+
+.filter-raspored {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: center;
+  background-color: rgba(204, 84, 48, 0.918);
+  flex-wrap: wrap;
+  padding: 60px;
+}
+
+.filter-raspored h2 {
+  font-size: 25px;
+}
+
+.filter-raspored label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.main-btn {
+  cursor: pointer;
+  height: 60px;
+  width: 200px;
+  color: #fff;
+  background-color: darkblue;
+  padding: 20px 40px;
+  font-family: inherit;
+  font-size: 16px;
+  border: 0;
+  border-radius: 5px;
+}
+
+/* Schedule cards */
+
+.shedule-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 60px;
+  gap: 30px;
+}
+
+.info-box {
+  background: #efefef;
+  padding: 15px;
+  border-radius: 25px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.info-box__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+}
+
+.info-box__header h2 {
+  color: darkblue;
+}
+
+.info-box__icon {
+  flex: 1 0 25px;
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+}
+
+.info-box__title {
+  font-size: 21px;
+}
+
+.info-box__subheader {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.info-box__subheader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-box__subheader-figure {
+  width: 45px;
+  height: 45px;
+  margin-bottom: 10px;
+}
+
+.info-box__subheader-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.info-box__about {
+  padding: 30px 0;
+  font-size: 17px;
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid #fff;
+  text-align: justify;
+}
+
+.info-box__footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+.info-box__footer a {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.info-box__btn-join {
+  color: black;
+  font-weight: bold;
+  transition: color 0.3s ease-out;
+}
+
+.info-box__btn-join:hover {
+  color: darkblue;
+}
+
+/* Subject cards */
+
+.subject-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 60px;
+  gap: 30px;
+}
